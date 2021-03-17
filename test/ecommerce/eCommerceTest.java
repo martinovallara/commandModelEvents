@@ -19,4 +19,20 @@ class eCommerceTest {
         cart.add(new CartItem("itemId", 1));
         assertEquals(cart.summary().size(), 1);
     }
+
+    @Test
+    void addAnotherItem() {
+        Cart cart = new Cart();
+        cart.add(new CartItem("itemId1", 1));
+        cart.add(new CartItem("itemId2", 1));
+        assertEquals(cart.summary().size(), 2);
+    }
+
+    @Test
+    void addSameItem() {
+        Cart cart = new Cart();
+        cart.add(new CartItem("itemId1", 1));
+        cart.add(new CartItem("itemId1", 1));
+        assertEquals(cart.summary().size(), 1);
+    }
 }
