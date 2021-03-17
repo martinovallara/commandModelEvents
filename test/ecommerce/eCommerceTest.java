@@ -26,6 +26,8 @@ class eCommerceTest {
         ECommerce.add(new CartItem("itemId2", 1));
 
         assertEquals(ECommerce.summary().size(), 2);
+        assertEquals(ECommerce.summary().get(0).getQuantity(), 1);
+        assertEquals(ECommerce.summary().get(1).getQuantity(), 1);
 
     }
 
