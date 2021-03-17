@@ -5,7 +5,6 @@ import java.util.Optional;
 
 public class Cart {
     private ArrayList<CartItem> cartItems;
-    public static final int MAX_QUANTITY = 100;
 
     public Cart() {
         this.cartItems = new ArrayList<>();
@@ -19,21 +18,16 @@ public class Cart {
         Optional<CartItem> cartItem = this.getItem(itemToAdd);
         if (cartItem.isPresent()) {
             CartItem itemInCart = cartItem.get();
-            itemInCart.setQuantity(itemInCart.getQuantity() + itemToAdd.getQuantity());
+
+            itemInCart.validate(itemToAdd);
+            
+            itemInCart.addQuantity(itemToAdd);
             return EventType.INCREASE_QUANTITY;
         }
+        
+        itemToAdd.validate();
+        
         cartItems.add(itemToAdd);
         return EventType.ADD_NEW_ITEM;
-    }
-
-    public void canAdd(CartItem itemToAdd) {
-        Optional<CartItem> cartItem = this.getItem(itemToAdd);
-        if (cartItem.isPresent()) {
-            CartItem itemInCart = cartItem.get();
-            if (itemInCart.getQuantity() + itemToAdd.getQuantity() >= MAX_QUANTITY)
-                throw new IllegalArgumentException();
-        }
-        if (itemToAdd.getQuantity() >= MAX_QUANTITY) throw new IllegalArgumentException();
-
     }
 }

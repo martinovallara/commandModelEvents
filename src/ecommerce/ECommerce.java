@@ -20,9 +20,7 @@ public class ECommerce {
 
     public void add(CartItem itemToAdd) {
 
-        cart.canAdd(itemToAdd);
         EventType eventType= cart.add(itemToAdd);
-
 
         if (eventType == EventType.ADD_NEW_ITEM) {
             summaryItems.add(new SummaryItem(itemToAdd.getId(), itemToAdd.getQuantity()));
