@@ -1,5 +1,7 @@
 package ecommerce;
 
+import com.sun.source.tree.LiteralTree;
+
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -22,12 +24,12 @@ public class Cart {
             itemInCart.validate(itemToAdd);
             
             itemInCart.addQuantity(itemToAdd);
-            return EventType.INCREASE_QUANTITY;
+            return new IncreaseItemEvent(itemToAdd);
         }
         
         itemToAdd.validate();
         
         cartItems.add(itemToAdd);
-        return EventType.ADD_NEW_ITEM;
+        return new AddNewItemEvent(itemToAdd);
     }
 }

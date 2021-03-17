@@ -1,6 +1,16 @@
 package ecommerce;
 
-public enum EventType {
-    ADD_NEW_ITEM,
-    INCREASE_QUANTITY
+public abstract class EventType {
+
+    protected CartItem itemToAdd;
+
+    public EventType(CartItem itemToAdd) {
+
+        this.itemToAdd = itemToAdd;
+    }
+
+    public CartItem getItem() {
+        return this.itemToAdd;
+    }
 }
+

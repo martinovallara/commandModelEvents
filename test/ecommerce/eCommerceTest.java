@@ -24,7 +24,9 @@ class eCommerceTest {
         ECommerce ECommerce = new ECommerce();
         ECommerce.add(new CartItem("itemId1", 1));
         ECommerce.add(new CartItem("itemId2", 1));
+
         assertEquals(ECommerce.summary().size(), 2);
+
     }
 
     @Test
@@ -33,6 +35,7 @@ class eCommerceTest {
         ECommerce.add(new CartItem("itemId1", 1));
         ECommerce.add(new CartItem("itemId1", 1));
         assertEquals(ECommerce.summary().size(), 1);
+        assertEquals(ECommerce.summary().get(0).getQuantity(), 2);
     }
 
     @Test
