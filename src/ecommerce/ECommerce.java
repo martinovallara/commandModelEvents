@@ -22,12 +22,18 @@ public class ECommerce {
 
         EventType eventType= cart.add(itemToAdd);
 
-        if (eventType == EventType.ADD_NEW_ITEM) {
-            summaryItems.add(new SummaryItem(itemToAdd.getId(), itemToAdd.getQuantity()));
-        } else {
-            SummaryItem summaryItem = summaryItems.stream().filter(item -> item.is(itemToAdd.getId())).findFirst().get();
-            summaryItem.addQuantity(itemToAdd.getQuantity());
+        switch (eventType) {
+            case ADD_NEW_ITEM:
+                summaryItems.add(new SummaryItem(itemToAdd.getId(), itemToAdd.getQuantity()));
+                break;
+            case INCREASE_QUANTITY:
+                SummaryItem summaryItem = summaryItems.stream().filter(item -> item.is(itemToAdd.getId())).findFirst().get();
+                summaryItem.addQuantity(itemToAdd.getQuantity());
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + eventType);
         }
+
     }
 }
 
