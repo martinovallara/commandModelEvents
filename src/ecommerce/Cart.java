@@ -1,40 +1,39 @@
 package ecommerce;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 public class Cart {
-
+    private ArrayList<CartItem> cartItems;
     public static final int MAX_QUANTITY = 100;
-    private ArrayList<SummaryItem> summaryItems;
-    private ArrayList<CartItem> cart;
 
     public Cart() {
-        summaryItems = new ArrayList<>();
-        cart = new ArrayList<>();
+        this.cartItems = new ArrayList<>();
     }
 
-    public List<SummaryItem> summary() {
-        return summaryItems;
+    public Optional<CartItem> getItem(CartItem itemToAdd) {
+        return cartItems.stream().filter(item -> item.is(itemToAdd.getId())).findFirst();
     }
 
-    public void add(CartItem itemToAdd) {
+    public EventType add(CartItem itemToAdd) {
+        Optional<CartItem> cartItem = this.getItem(itemToAdd);
+        if (cartItem.isPresent()) {
+            CartItem itemInCart = cartItem.get();
+            itemInCart.setQuantity(itemInCart.getQuantity() + itemToAdd.getQuantity());
+            return EventType.INCREASE_QUANTITY;
+        }
+        cartItems.add(itemToAdd);
+        return EventType.ADD_NEW_ITEM;
+    }
 
-        Optional<CartItem> cartItem = cart.stream().filter(item -> item.is(itemToAdd.getId())).findFirst();
-        if (!cartItem.isPresent()) {
-            if (itemToAdd.getQuantity() >= MAX_QUANTITY) throw new IllegalArgumentException();
-            cart.add(itemToAdd);
-            summaryItems.add(new SummaryItem(itemToAdd.getId(), itemToAdd.getQuantity()));
-        } else {
+    public void canAdd(CartItem itemToAdd) {
+        Optional<CartItem> cartItem = this.getItem(itemToAdd);
+        if (cartItem.isPresent()) {
             CartItem itemInCart = cartItem.get();
             if (itemInCart.getQuantity() + itemToAdd.getQuantity() >= MAX_QUANTITY)
                 throw new IllegalArgumentException();
-            SummaryItem summaryItem = summaryItems.stream().filter(item -> item.is(itemInCart.getId())).findFirst().get();
-            summaryItem.addQuantity(itemInCart.getQuantity());
         }
+        if (itemToAdd.getQuantity() >= MAX_QUANTITY) throw new IllegalArgumentException();
 
     }
 }
-
-

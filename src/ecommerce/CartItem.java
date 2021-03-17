@@ -20,4 +20,8 @@ public class CartItem {
    public Boolean is(String itemId) {
         return this.itemId.equals(itemId);
    }
+
+    public void setQuantity(int quantity) {
+        this.quantity=quantity;
+    }
 }
