@@ -17,15 +17,24 @@ public class CartSummary {
     public void receives(EventType eventType) {
 
         CartItem itemToAdd = eventType.getItem();
-        if (eventType.getClass().equals(AddNewItemEvent.class)) {
-            summaryItems.add(new SummaryItem(itemToAdd.getId(), itemToAdd.getQuantity()));
+        if (eventType.equals(AddNewItemEvent.class)) {
+            addNew(itemToAdd);
             return;
-        } else if (eventType.getClass().equals(IncreaseItemEvent.class)) {
-            SummaryItem summaryItem = summaryItems.stream().filter(item -> item.is(itemToAdd.getId())).findFirst().get();
-            summaryItem.addQuantity(itemToAdd.getQuantity());
+
+        } else if (eventType.equals(IncreaseItemEvent.class)) {
+            increaseQuantity(itemToAdd);
             return;
         }
 
         throw new IllegalStateException("Unexpected value: " + eventType.getClass().getName());
+    }
+
+    private void addNew(CartItem itemToAdd) {
+        summaryItems.add(new SummaryItem(itemToAdd.getId(), itemToAdd.getQuantity()));
+    }
+
+    private void increaseQuantity(CartItem itemToAdd) {
+        SummaryItem summaryItem = summaryItems.stream().filter(item -> item.is(itemToAdd.getId())).findFirst().get();
+        summaryItem.addQuantity(itemToAdd.getQuantity());
     }
 }

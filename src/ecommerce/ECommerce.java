@@ -5,25 +5,20 @@ import java.util.List;
 public class ECommerce {
 
     private Cart cart;
-    public CartSummary summaryItems;
+    public CartSummary cartSummary;
 
     public ECommerce() {
-
         cart = new Cart();
-        summaryItems = new CartSummary();
+        cartSummary = new CartSummary();
     }
 
     public List<SummaryItem> summary() {
-        return summaryItems.summaryItems();
+        return cartSummary.summaryItems();
     }
 
     public void add(CartItem itemToAdd) {
-
         EventType eventType = cart.add(itemToAdd);
-
-        summaryItems.receives(eventType);
-
-
+        cartSummary.receives(eventType);
     }
 }
 
